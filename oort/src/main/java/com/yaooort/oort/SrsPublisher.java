@@ -8,9 +8,6 @@ import com.yaooort.seu.magicfilter.utils.MagicFilterType;
 
 import java.io.File;
 
-/**
- * Created by Leo Ma on 2016/7/25.
- */
 public class SrsPublisher {
 
     private static AudioRecord mic;

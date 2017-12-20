@@ -19,9 +19,6 @@ import static com.yaooort.oort.RtmpListener.MSG_RTMP_STOPPED;
 import static com.yaooort.oort.RtmpListener.MSG_RTMP_VIDEO_STREAMING;
 import static com.yaooort.oort.SrsEncoder.VGOP;
 
-/**
- * Created by bunny on 2017/12/8.
- */
 
 public class SrsFlvMuxer {
     private static final int VIDEO_TRACK = 100;
@@ -48,7 +45,7 @@ public class SrsFlvMuxer {
     private String rtmpAddress = "";
 
     public SrsFlvMuxer(RtmpListener rtmplistener) {
-        Log.e("TTTT", "初始化推流");
+        Log.e("RTMP", "初始化推流");
         this.rtmplistener = rtmplistener;
     }
 
@@ -64,7 +61,7 @@ public class SrsFlvMuxer {
 
     public void writeSampleData(int trackIndex, ByteBuffer byteBuf, MediaCodec.BufferInfo bufferInfo) {
         if (bufferInfo.offset > 0) {
-            Log.w("TTTT", String.format("encoded frame %dB, offset=%d pts=%dms",
+            Log.w("RTMP", String.format("encoded frame %dB, offset=%d pts=%dms",
                     bufferInfo.size, bufferInfo.offset, bufferInfo.presentationTimeUs / 1000
             ));
         }
@@ -77,7 +74,7 @@ public class SrsFlvMuxer {
 
 
     public AtomicInteger getVideoFrameCacheNumber() {
-        Log.e("TTTT", "获取间隔视频帧数量" + atomicInteger.toString());
+        Log.e("RTMP", "获取间隔视频帧数量" + atomicInteger.toString());
         if (atomicInteger.get() >= VGOP) {
             rtmplistener.callRtmpState(MSG_RTMP_NET_ERROR);
         }
@@ -86,7 +83,7 @@ public class SrsFlvMuxer {
 
     private boolean connect(String url) {
         boolean connected = false;
-        Log.i("TTTT", String.format("worker: connecting to RTMP server by url=%s\n", url));
+        Log.i("RTMP", String.format("worker: connecting to RTMP server by url=%s\n", url));
         jniRtmpPointer = SrsRtmp.open(url, true);
         connected = jniRtmpPointer > 0;
         mVideoSequenceHeader = null;
@@ -102,7 +99,7 @@ public class SrsFlvMuxer {
         int wtRtmp = 0;
         if (frame.isVideo()) {
             if (frame.isKeyFrame()) {
-                Log.i("TTTT", String.format("worker: send frame type=%d, dts=%d, size=%dB",
+                Log.i("RTMP", String.format("worker: send frame type=%d, dts=%d, size=%dB",
                         frame.type, frame.dts, frame.flvTag.array().length));
             }
             wtRtmp = SrsRtmp.write(jniRtmpPointer, frame.flvTag.array(), frame.flvTag.size(), FLV_RTMP_PACKET_TYPE_VIDEO, frame.dts);
@@ -120,11 +117,11 @@ public class SrsFlvMuxer {
         if(count>10){
             rtmplistener.callRtmpState(MSG_RTMP_CONNECTING);
         }
-        Log.e("TTTT", "写入Rtmp标志" + wtRtmp);
+        Log.e("RTMP", "写入Rtmp标志" + wtRtmp);
     }
 
     public void start(final String rtmpUrl) {
-        Log.e("TTTT", "开始推流");
+        Log.e("RTMP", "开始推流");
         atomicInteger.set(0);
         count = 0;
         rtmpAddress = rtmpUrl;
@@ -175,7 +172,7 @@ public class SrsFlvMuxer {
     }
 
     public void stop() {
-        Log.e("TTTT", "结束推流");
+        Log.e("RTMP", "结束推流");
         started = false;
         mFlvTagCache.clear();
         if (worker != null) {
@@ -852,7 +849,7 @@ public class SrsFlvMuxer {
 
             int pts = (int) (bi.presentationTimeUs / 1000);
             int dts = pts;
-            Log.e("TTTT", "pts==>" + pts + "  bi==>" + bi.presentationTimeUs);
+            Log.e("RTMP", "pts==>" + pts + "  bi==>" + bi.presentationTimeUs);
             int type = SrsCodecVideoAVCFrame.InterFrame;
             SrsFlvFrameBytes frame = avc.demuxAnnexb(bb, bi, true);
             int nal_unit_type = frame.data.get(0) & 0x1f;

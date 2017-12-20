@@ -18,9 +18,9 @@ package com.yaooort.seu.magicfilter.base.gpuimage;
 
 import android.opengl.GLES20;
 
+import com.yaooort.oort.R;
 import com.yaooort.seu.magicfilter.utils.MagicFilterType;
 
-import net.yaooort.oort.R;
 
 /**
  * exposure: The adjusted exposure (-10.0 - 10.0, with 0.0 as the default)

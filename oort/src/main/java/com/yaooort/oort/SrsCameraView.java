@@ -24,9 +24,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-/**
- * Created by Leo Ma on 2016/2/25.
- */
 public class SrsCameraView extends GLSurfaceView implements GLSurfaceView.Renderer {
 
     private GPUImageFilter magicFilter;
@@ -285,6 +282,9 @@ public class SrsCameraView extends GLSurfaceView implements GLSurfaceView.Render
         if (supportedFocusModes != null && !supportedFocusModes.isEmpty()) {
             if (supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
                 params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+            }else if(supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)){
+                params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+                mCamera.autoFocus(null);
             } else if (supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
                 params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
                 mCamera.autoFocus(null);

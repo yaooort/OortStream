@@ -18,9 +18,9 @@ package com.yaooort.seu.magicfilter.base.gpuimage;
 
 import android.opengl.GLES20;
 
+import com.yaooort.oort.R;
 import com.yaooort.seu.magicfilter.utils.MagicFilterType;
 
-import net.yaooort.oort.R;
 
 /**
  * brightness value ranges from -1.0 to 1.0, with 0.0 as the normal level

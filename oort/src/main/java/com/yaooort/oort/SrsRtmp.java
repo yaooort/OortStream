@@ -1,8 +1,5 @@
 package com.yaooort.oort;
 
-/**
- * Created by bunny on 2017/11/28.
- */
 
 public class SrsRtmp {
 

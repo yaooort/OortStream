@@ -5,9 +5,6 @@ import android.os.Message;
 
 import java.lang.ref.WeakReference;
 
-/**
- * Created by leo.ma on 2016/11/4.
- */
 
 public class SrsEncodeHandler extends Handler {
 

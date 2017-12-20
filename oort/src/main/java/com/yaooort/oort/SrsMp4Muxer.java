@@ -57,9 +57,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-/**
- * Created by LeoMa on 2016/5/21.
- */
 public class SrsMp4Muxer {
 
     private static final String TAG = "SrsMp4Muxer";

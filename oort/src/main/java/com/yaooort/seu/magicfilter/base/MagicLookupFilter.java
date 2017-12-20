@@ -2,11 +2,11 @@ package com.yaooort.seu.magicfilter.base;
 
 import android.opengl.GLES20;
 
+import com.yaooort.oort.R;
 import com.yaooort.seu.magicfilter.base.gpuimage.GPUImageFilter;
 import com.yaooort.seu.magicfilter.utils.MagicFilterType;
 import com.yaooort.seu.magicfilter.utils.OpenGLUtils;
 
-import net.yaooort.oort.R;
 
 public class MagicLookupFilter extends GPUImageFilter {
 

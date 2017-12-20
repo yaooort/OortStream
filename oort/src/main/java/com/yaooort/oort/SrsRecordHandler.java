@@ -6,9 +6,6 @@ import android.os.Message;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
-/**
- * Created by leo.ma on 2016/11/4.
- */
 
 public class SrsRecordHandler extends Handler {
 

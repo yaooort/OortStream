@@ -1,13 +1,12 @@
 package com.yaooort.seu.magicfilter.advanced;
 
-import java.nio.ByteBuffer;
-
 import android.opengl.GLES20;
 
-import com.yaooort.seu.magicfilter.utils.MagicFilterType;
-import net.yaooort.oort.R;
-
+import com.yaooort.oort.R;
 import com.yaooort.seu.magicfilter.base.gpuimage.GPUImageFilter;
+import com.yaooort.seu.magicfilter.utils.MagicFilterType;
+
+import java.nio.ByteBuffer;
 
 public class MagicRomanceFilter extends GPUImageFilter{
     
