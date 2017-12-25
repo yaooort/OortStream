@@ -31,6 +31,7 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.LinkedList;
 
+import static android.opengl.GLES10.GL_MULTISAMPLE;
 import static android.opengl.GLES20.GL_ONE_MINUS_SRC_ALPHA;
 import static android.opengl.GLES20.GL_SRC_ALPHA;
 
@@ -183,7 +184,7 @@ public class GPUImageFilter {
         mGLFboId = new int[1];
         mGLFboTexId = new int[1];
         mGLFboBuffer = IntBuffer.allocate(width * height);
-
+        GLES20.glEnable(GL_MULTISAMPLE);
         GLES20.glGenFramebuffers(1, mGLFboId, 0);
         GLES20.glGenTextures(1, mGLFboTexId, 0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mGLFboTexId[0]);
@@ -282,11 +283,9 @@ public class GPUImageFilter {
 
         onDrawArraysAfter();
 
-        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, 0);
-
+        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_GEN_STR_OES, 0);
         GLES20.glDisableVertexAttribArray(mGLPositionIndex);
         GLES20.glDisableVertexAttribArray(mGLTextureCoordinateIndex);
-
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
 
         return mGLFboTexId[0];
