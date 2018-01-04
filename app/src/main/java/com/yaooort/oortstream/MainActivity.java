@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity implements SrsEncodeHandler.
 
         srsPublisher.setEncodeHandler(new SrsEncodeHandler(this));
         srsPublisher.setRecordHandler(new SrsRecordHandler(null));
-        srsPublisher.setPreviewResolution(640, 360);
-        srsPublisher.setOutputResolution(360, 640);
+        srsPublisher.setPreviewResolution(1280, 720);
+        srsPublisher.setOutputResolution(720, 1280);
         srsPublisher.setVideoSmoothMode();
         srsPublisher.startCamera();
         button.setOnClickListener(new View.OnClickListener() {

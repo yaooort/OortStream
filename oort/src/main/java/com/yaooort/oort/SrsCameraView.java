@@ -25,7 +25,6 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 public class SrsCameraView extends GLSurfaceView implements GLSurfaceView.Renderer {
-
     private GPUImageFilter magicFilter;
     private SurfaceTexture surfaceTexture;
     private int mOESTextureId = OpenGLUtils.NO_TEXTURE;
@@ -58,6 +57,7 @@ public class SrsCameraView extends GLSurfaceView implements GLSurfaceView.Render
 
     public SrsCameraView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
         setEGLContextClientVersion(2);
         setRenderer(this);
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
@@ -146,7 +146,7 @@ public class SrsCameraView extends GLSurfaceView implements GLSurfaceView.Render
 
         mGLPreviewBuffer = ByteBuffer.allocateDirect(mPreviewWidth * mPreviewHeight * 4);
         mInputAspectRatio = mPreviewWidth > mPreviewHeight ?
-            (float) mPreviewWidth / mPreviewHeight : (float) mPreviewHeight / mPreviewWidth;
+                (float) mPreviewWidth / mPreviewHeight : (float) mPreviewHeight / mPreviewWidth;
 
         return new int[] { mPreviewWidth, mPreviewHeight };
     }
@@ -281,9 +281,6 @@ public class SrsCameraView extends GLSurfaceView implements GLSurfaceView.Render
         if (supportedFocusModes != null && !supportedFocusModes.isEmpty()) {
             if (supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
                 params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-            }else if(supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)){
-                params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
-                mCamera.autoFocus(null);
             } else if (supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
                 params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
                 mCamera.autoFocus(null);

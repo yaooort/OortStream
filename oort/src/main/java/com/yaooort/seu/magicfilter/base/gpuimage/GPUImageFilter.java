@@ -31,10 +31,6 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.LinkedList;
 
-import static android.opengl.GLES10.GL_MULTISAMPLE;
-import static android.opengl.GLES20.GL_ONE_MINUS_SRC_ALPHA;
-import static android.opengl.GLES20.GL_SRC_ALPHA;
-
 public class GPUImageFilter {
 
     private boolean mIsInitialized;
@@ -123,7 +119,7 @@ public class GPUImageFilter {
 
     private void loadSamplerShader() {
         mGLProgId = OpenGLUtils.loadProgram(OpenGLUtils.readShaderFromRawResource(getContext(), mVertexShaderId),
-            OpenGLUtils.readShaderFromRawResource(getContext(), mFragmentShaderId));
+                OpenGLUtils.readShaderFromRawResource(getContext(), mFragmentShaderId));
         mGLPositionIndex = GLES20.glGetAttribLocation(mGLProgId, "position");
         mGLTextureCoordinateIndex = GLES20.glGetAttribLocation(mGLProgId,"inputTextureCoordinate");
         mGLTextureTransformIndex = GLES20.glGetUniformLocation(mGLProgId, "textureTransform");
@@ -132,25 +128,25 @@ public class GPUImageFilter {
 
     private void initVbo() {
         final float VEX_CUBE[] = {
-            -1.0f, -1.0f, // Bottom left.
-            1.0f, -1.0f, // Bottom right.
-            -1.0f, 1.0f, // Top left.
-            1.0f, 1.0f, // Top right.
+                -1.0f, -1.0f, // Bottom left.
+                1.0f, -1.0f, // Bottom right.
+                -1.0f, 1.0f, // Top left.
+                1.0f, 1.0f, // Top right.
         };
 
         final float TEX_COORD[] = {
-            0.0f, 0.0f, // Bottom left.
-            1.0f, 0.0f, // Bottom right.
-            0.0f, 1.0f, // Top left.
-            1.0f, 1.0f // Top right.
+                0.0f, 0.0f, // Bottom left.
+                1.0f, 0.0f, // Bottom right.
+                0.0f, 1.0f, // Top left.
+                1.0f, 1.0f // Top right.
         };
 
         mGLCubeBuffer = ByteBuffer.allocateDirect(VEX_CUBE.length * 4)
-            .order(ByteOrder.nativeOrder()).asFloatBuffer();
+                .order(ByteOrder.nativeOrder()).asFloatBuffer();
         mGLCubeBuffer.put(VEX_CUBE).position(0);
 
         mGLTextureBuffer = ByteBuffer.allocateDirect(TEX_COORD.length * 4)
-            .order(ByteOrder.nativeOrder()).asFloatBuffer();
+                .order(ByteOrder.nativeOrder()).asFloatBuffer();
         mGLTextureBuffer.put(TEX_COORD).position(0);
 
         mGLCubeId = new int[1];
@@ -184,7 +180,7 @@ public class GPUImageFilter {
         mGLFboId = new int[1];
         mGLFboTexId = new int[1];
         mGLFboBuffer = IntBuffer.allocate(width * height);
-        GLES20.glEnable(GL_MULTISAMPLE);
+
         GLES20.glGenFramebuffers(1, mGLFboId, 0);
         GLES20.glGenTextures(1, mGLFboTexId, 0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mGLFboTexId[0]);
@@ -197,8 +193,6 @@ public class GPUImageFilter {
         GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0, GLES20.GL_TEXTURE_2D, mGLFboTexId[0], 0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
-
-        GLES20.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
     private void destroyFboTexture() {
@@ -275,7 +269,7 @@ public class GPUImageFilter {
         GLES20.glViewport(0, 0, mInputWidth, mInputHeight);
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mGLFboId[0]);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
-        GLES20.glReadPixels(0, 0, mInputWidth, mInputHeight, GLES20.GL_RGBA4, GLES20.GL_UNSIGNED_BYTE, mGLFboBuffer);
+        GLES20.glReadPixels(0, 0, mInputWidth, mInputHeight, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, mGLFboBuffer);
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
         GLES20.glViewport(0, 0, mOutputWidth, mOutputHeight);
 
@@ -283,9 +277,11 @@ public class GPUImageFilter {
 
         onDrawArraysAfter();
 
-        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_GEN_STR_OES, 0);
+        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, 0);
+
         GLES20.glDisableVertexAttribArray(mGLPositionIndex);
         GLES20.glDisableVertexAttribArray(mGLTextureCoordinateIndex);
+
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
 
         return mGLFboTexId[0];
@@ -294,13 +290,13 @@ public class GPUImageFilter {
     protected void onDrawArraysPre() {}
 
     protected void onDrawArraysAfter() {}
-    
+
     private void runPendingOnDrawTasks() {
         while (!mRunOnDraw.isEmpty()) {
             mRunOnDraw.removeFirst().run();
         }
     }
-    
+
     public int getProgram() {
         return mGLProgId;
     }
@@ -316,7 +312,7 @@ public class GPUImageFilter {
     protected MagicFilterType getFilterType() {
         return mType;
     }
-    
+
     public void setTextureTransformMatrix(float[] mtx){
         mGLTextureTransformMatrix = mtx;
     }
