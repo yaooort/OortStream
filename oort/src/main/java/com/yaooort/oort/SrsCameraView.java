@@ -268,8 +268,23 @@ public class SrsCameraView extends GLSurfaceView implements GLSurfaceView.Render
         }
 
         Camera.Parameters params = mCamera.getParameters();
-        params.setPictureSize(mPreviewWidth, mPreviewHeight);
-        params.setPreviewSize(mPreviewWidth, mPreviewHeight);
+        List<Camera.Size> pic_sizes = params.getSupportedPictureSizes();
+        Camera.Size pic_size = pic_sizes.get(0);
+        for (int i = 0; i < pic_sizes.size(); i++) {
+            if (pic_sizes.get(i).width == mPreviewWidth&&pic_sizes.get(i).height==mPreviewHeight)
+                pic_size = pic_sizes.get(i);
+        }
+
+        List<Camera.Size> pre_sizes = params.getSupportedPreviewSizes();
+        Camera.Size pre_size = pre_sizes.get(0);
+        for (int i = 0; i < pre_sizes.size(); i++) {
+            if (pre_sizes.get(i).width == mPreviewWidth&&pre_sizes.get(i).height==mPreviewHeight)
+                pre_size = pre_sizes.get(i);
+        }
+        params.setPictureSize(pic_size.width, pic_size.height);
+//        params.setPictureSize(mPreviewWidth, mPreviewHeight);
+        params.setPreviewSize(pre_size.width, pre_size.height);
+
         int[] range = adaptFpsRange(SrsEncoder.VFPS, params.getSupportedPreviewFpsRange());
         params.setPreviewFpsRange(range[0], range[1]);
         params.setPreviewFormat(ImageFormat.NV21);

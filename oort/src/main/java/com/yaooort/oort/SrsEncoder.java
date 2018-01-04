@@ -34,7 +34,7 @@ public class SrsEncoder {
     public static final int VGOP = 24;
     public static final int ASAMPLERATE = 44100;
     public static int aChannelConfig = AudioFormat.CHANNEL_IN_STEREO;
-    public static final int ABITRATE = 32 * 1024;  // 64 kbps
+    public static final int ABITRATE = 64 * 1024;  // 64 kbps
 
     private SrsEncodeHandler mHandler;
 
